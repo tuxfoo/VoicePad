@@ -10,3 +10,7 @@ There will be a option to use both a online and offline speech engine.
 
 After speech recognition and chit chat are working, the second goal will be to get commands to work,
 I have used python to automate stuff inside games before so it should be possible.
+
+Required dependencies can be installed via pip, I will list them when the program is ready for testing.
+
+This software is GPL2.
