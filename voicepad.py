@@ -30,15 +30,21 @@ def check_pattern(words, patterns):
             if not check_pattern(words, pattern):
                 return False
         elif phrase == "":
-            if pattern.lower() in words:
+            if contains_phrase(words, pattern.lower()):
                 hit = True
-                phrase = pattern
-        elif phrase + " " + pattern.lower() in words:
+                phrase = pattern.lower()
+        elif contains_phrase(words, (phrase + " " + pattern).lower()):
             hit = True
-            phrase += " " + pattern
+            phrase += " " + pattern.lower()
         elif pattern == patterns[-1] and not hit:
             return False
     return True
+
+
+def contains_phrase(s, w):
+    if (' ' + w + ' ') in (' ' + s + ' '):
+        return True
+    return False
 
 
 def run_cmd(commands):
