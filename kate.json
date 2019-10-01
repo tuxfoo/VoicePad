@@ -28,7 +28,7 @@
           "Categories": "chit-chat"
         },
             {"Name": "Leaving",
-         "patterns":[[ "I'm", "I am", "We are", "We're"], "leaving the ship"],
+         "patterns":[[ "I'm", "I am", "We are", "We're"], ["leaving the ship"]],
           "Files": ["/Role/Offloading.mp3", "/Acknowledgements/Go on then you can proceed.mp3", "/Acknowledgements/Accepted you may now proceed.mp3", "/Role/Goodbye.mp3"],
           "Command": "none",
           "Description":"Leaving",
