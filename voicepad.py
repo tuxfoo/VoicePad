@@ -2,24 +2,28 @@ import speech_recognition as sr
 import playsound as snd
 import json
 import random
+import keyboard
+import time
 
 with open('kate.json') as file:
     data = json.load(file)
 
 sounds = '/home/jacob/Music/Sounds/hcspack-KATE/'
-
 r = sr.Recognizer()
 phrase = ""
+k = keyboard
 
 
 def respond(words):
     global sounds
+    global phrase
     for trigger in data['triggers']:
+        phrase = ""
         if check_pattern(words, trigger['patterns']) and phrase.lower() in words and phrase != "":
-            print("It works")
+            print("Event Triggered: " + trigger['Name'])
+            run_cmd(trigger['Command'])
             if trigger['Files'] != "none":
                 snd.playsound(sounds + random.choice(trigger['Files']))
-            run_cmd(trigger['Command'])
 
 
 def check_pattern(words, patterns):
@@ -48,23 +52,27 @@ def contains_phrase(s, w):
 
 
 def run_cmd(commands):
+    global sounds
     # This function will take a list of commands and tasks to execute
-    if type(commands) != list:
+    # It does not do anything at the moment, it is here for planning features.
+    if type(commands) != list and commands != "none":
         return
     for cmd in commands:
         # The commands will be performed in this loop
-        # Maybe use a dictionary???
-        if cmd == "wait":
-            # Will wait
-            pass
-        elif cmd == "keybind":
-            # Will forward keystroke to SC
-            pass
-        elif cmd == "play":
-            # Will play a file
-            pass
+        cmd2 = cmd.split("=")
+        print(cmd2)
+        if cmd2[0] == "wait":
+            # Will take a interger and wait that amount of time
+            time.sleep(int(cmd2[1]))
+        elif cmd2[0] == "keybind":
+            # Will take a string, which will be entered on a virtual keyboard
+            keyboard.press_and_release(cmd2[1])
+        elif cmd2[0] == "play":
+            # Will take a file, and play it
+            snd.playsound(sounds + cmd2[1])
         elif cmd == "disable-cat":
             # Will disable catagory.
+            # Maybe add disabled catagories to a list so they can be ignored?
             pass
 
 
