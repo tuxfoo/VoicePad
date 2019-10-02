@@ -11,7 +11,7 @@ with open('kate.json') as file:
 sounds = '/home/jacob/Music/Sounds/hcspack-KATE/'
 r = sr.Recognizer()
 phrase = ""
-k = keyboard
+disabled_categories = []
 
 
 def respond(words):
@@ -19,11 +19,12 @@ def respond(words):
     global phrase
     for trigger in data['triggers']:
         phrase = ""
-        if check_pattern(words, trigger['patterns']) and phrase.lower() in words and phrase != "":
-            print("Event Triggered: " + trigger['Name'])
-            run_cmd(trigger['Command'])
-            if trigger['Files'] != "none":
-                snd.playsound(sounds + random.choice(trigger['Files']))
+        if not is_disabled(trigger["Categories"]):
+            if check_pattern(words, trigger['patterns']) and phrase.lower() in words and phrase != "":
+                print("Event Triggered: " + trigger['Name'])
+                run_cmd(trigger['Command'])
+                if trigger['Files'] != "none":
+                    snd.playsound(sounds + random.choice(trigger['Files']))
 
 
 def check_pattern(words, patterns):
@@ -51,6 +52,29 @@ def contains_phrase(s, w):
     return False
 
 
+def disable_cat(cat):
+    global disabled_categories
+    for c in disabled_categories:
+        if c == cat:
+            # Already disabled
+            return
+    disabled_categories.append(cat)
+
+
+def enable_cat(cat):
+    global disabled_categories
+    if is_disabled(cat):
+        disabled_categories.remove(cat)
+
+
+def is_disabled(cat):
+    global disabled_categories
+    for c in disabled_categories:
+        if c == cat:
+            return True
+    return False
+
+
 def run_cmd(commands):
     global sounds
     # This function will take a list of commands and tasks to execute
@@ -70,10 +94,11 @@ def run_cmd(commands):
         elif cmd2[0] == "play":
             # Will take a file, and play it
             snd.playsound(sounds + cmd2[1])
-        elif cmd == "disable-cat":
-            # Will disable catagory.
-            # Maybe add disabled catagories to a list so they can be ignored?
-            pass
+        elif cmd2[0] == "disable-cat":
+            # Will disable category.
+            disable_cat(cmd2[1])
+        elif cmd2[0] == "enable-cat":
+            enable_cat(cmd2[1])
 
 
 while True:
