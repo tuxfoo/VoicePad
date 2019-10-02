@@ -1,6 +1,6 @@
 {"triggers": [
         {"Name": "Greetings",
-         "patterns":[["Hi", "How are you", "Is anyone there?", "Hello", "Good day", "hey"], ["kate"]],
+         "patterns":[["Hi", "Hello", "hey"], ["kate"]],
           "Files": ["/Acknowledgements/Greetings.mp3", "/Role/Hello.mp3"],
           "Command": "none",
           "Description":"Simple Greeting.",
@@ -27,11 +27,18 @@
           "Description":"Are you there",
           "Categories": "chit-chat"
         },
-            {"Name": "Leaving",
+          {"Name": "Leaving",
          "patterns":[[ "I'm", "I am", "We are", "We're"], ["leaving the ship"]],
           "Files": ["/Role/Offloading.mp3", "/Acknowledgements/Go on then you can proceed.mp3", "/Acknowledgements/Accepted you may now proceed.mp3", "/Role/Goodbye.mp3"],
           "Command": "none",
           "Description":"Leaving",
+          "Categories": "chit-chat"
+        },
+          {"Name": "Entering",
+         "patterns":[[ "I'm", "I am", "We are", "We're"], ["coming"],["on board", "back on board"]],
+          "Files": "none",
+          "Command": ["play=/Planetary landings/Radio effect/Affirmative stand by.mp3", "wait=4", "play=/Planetary landings/Radio effect/Preparing now.mp3", "wait=6", "play=/Planetary landings/Radio effect/Pressurising.mp3", "wait=4", "play=/Rank/Commander/Welcome back Commander.mp3", "wait=2", "play=/Systems and Displays/Reset profiles/All systems ready to go.mp3"],
+          "Description":"Coming back on board",
           "Categories": "chit-chat"
         }
   ]
