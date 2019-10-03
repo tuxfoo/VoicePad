@@ -7,14 +7,19 @@ import mouse
 import time
 import threading
 
-with open('kate.json') as file:
-    data = json.load(file)
+with open('kate.json') as file0:
+    data = json.load(file0)
 
-sounds = '/home/jacob/Music/Sounds/hcspack-KATE/'
+with open('settings.json') as file1:
+    settings = json.load(file1)
+
+sounds = settings['General']['sounds-location']
 r = sr.Recognizer()
 phrase = ""
 disabled_categories = []
-# Set to one to enable the online speech api
+# Set to zero to use the offline speech api (pocketphinx)
+# Set to one to use the online speech api (wit_
+# Set to two to use the online api but also display what the offline api says for debugging
 online_api = 1
 
 
@@ -42,7 +47,7 @@ def check_pattern(words, patterns):
     global phrase
     hit = False
     for pattern in patterns:
-        print("Last Phrase: " + phrase)
+        # print("Last Phrase: " + phrase)
         if type(pattern) == list:
             if not check_pattern(words, pattern):
                 return False
@@ -118,27 +123,30 @@ def run_cmd(commands):
 
 
 while True:
-    with sr.Microphone() as source:
+    with sr.Microphone(sample_rate=16000, chunk_size=1024) as source:
         print("Listening")
-        r.adjust_for_ambient_noise(source, duration=1)
-        answer = r.listen(source, phrase_time_limit=4)
+        r.adjust_for_ambient_noise(source)  # , duration=1
+        answer = r.listen(source)  # , phrase_time_limit=4
         try:
-            if online_api == 1:
-                ai = r.recognize_wit(answer, key="AJFK24SWSLG2CSKDB2AYRJQWIM47HVFB")
+            start = time.time()
+            if online_api == 1 or online_api == 2:
+                ai = r.recognize_wit(answer, key=settings['General']['wit-key'])
             ans = r.recognize_sphinx(answer)
-            if ai != "":
-                print("-----YOU SAID------")
+            end = time.time()
+            print("Recognize took: " + str(end - start) + " seconds")
+            print("-----YOU SAID------")
+            if online_api == 0 or online_api == 2:
                 print("pocketphinx: " + ans)
-                if online_api == 1:
-                    print("wit: " + ai)
-                print("-------------------")
-                start = time.time()
-                if online_api == 1:
-                    respond(ai.lower())
-                else:
-                    respond(ans.lower())
-                end = time.time()
-                print("Respond took: " + str(end - start) + " seconds")
+            if online_api == 1 or online_api == 2:
+                print("wit: " + ai)
+            print("-------------------")
+            start = time.time()
+            if online_api == 1:
+                respond(ai.lower())
+            else:
+                respond(ans.lower())
+            end = time.time()
+            print("Respond took: " + str(end - start) + " seconds")
             phrase = ""
         except sr.UnknownValueError:
             print("Could not understand audio")
