@@ -21,7 +21,7 @@
           "Categories": "chit-chat"
         },
           {"Name": "You there",
-         "patterns":["Are you there"],
+         "patterns":["you there"],
           "Files": ["/Acknowledgements/Trouble on the bridge, yes I mean me.mp3", "/Role/I was just out back looking for Wotsits.mp3", "/Acknowledgements/I'm here 2.mp3", "/Acknowledgements/I'm here how can I help 2.mp3", "/Acknowledgements/I'm here how can I help.mp3", "/Acknowledgements/I'm here let's kill some stuff.mp3", "/Acknowledgements/I'm here.mp3"],
           "Command": "none",
           "Description":"Are you there",
@@ -30,16 +30,30 @@
           {"Name": "Leaving",
          "patterns":[[ "I'm", "I am", "We are", "We're"], ["leaving the ship"]],
           "Files": ["/Role/Offloading.mp3", "/Acknowledgements/Go on then you can proceed.mp3", "/Acknowledgements/Accepted you may now proceed.mp3", "/Role/Goodbye.mp3"],
-          "Command": ["disable-cat=chit-chat"],
+          "Command": ["disable-cat=chit-chat", "disable-cat=Missile Control"],
           "Description":"Leaving",
           "Categories": "chit-chat"
         },
           {"Name": "Entering",
-         "patterns":[[ "I'm", "I am", "We are", "We're"], ["coming"],["on board", "back on board"]],
+         "patterns":[[ "I'm", "I am", "We are", "We're"], ["coming"],["on board", "back on board", "back on the ship"]],
           "Files": "none",
-          "Command": ["play=/Planetary landings/Radio effect/Affirmative stand by.mp3", "wait=4", "play=/Planetary landings/Radio effect/Preparing now.mp3", "wait=6", "play=/Planetary landings/Radio effect/Pressurising.mp3", "wait=4", "play=/Rank/Commander/Welcome back Commander.mp3", "wait=2", "play=/Systems and Displays/Reset profiles/All systems ready to go.mp3", "enable-cat=chit-chat"],
+          "Command": ["background=False", "play=/Planetary landings/Radio effect/Affirmative stand by.mp3", "wait=4", "play=/Planetary landings/Radio effect/Preparing now.mp3", "wait=6", "play=/Planetary landings/Radio effect/Pressurising.mp3", "wait=4", "play=/Rank/Commander/Welcome back Commander.mp3", "wait=2", "play=/Systems and Displays/Reset profiles/All systems ready to go.mp3", "enable-cat=chit-chat", "enable-cat=Missile Control"],
           "Description":"Coming back on board",
           "Categories": "general"
+        },
+          {"Name": "Lock",
+         "patterns":[["Lock"], [ "missile", "rocket", "target", "enemy", "hostile", "tango"]],
+          "Files": ["/Targeting/Target locked.mp3", "/Targeting/Lock target.mp3", "/Targeting/Locking on to target.mp3", "/Targeting/Locking on.mp3", "/Targeting/Locking target.mp3", "/Targeting/Missile locked.mp3", "/Targeting/Missiles locked.mp3"],
+          "Command": ["mouse_click=middle"],
+          "Description":"Locking on",
+          "Categories": "Missile Control"
+        },
+            {"Name": "Fire Missile",
+         "patterns":[["Launch", "fire"], ["missile", "missiles"]],
+          "Files": ["/Weapons/Fire missile.mp3", "/Weapons/Firing missile.mp3", "/Weapons/Missile away.mp3", "/Weapons/Missile launch.mp3"],
+          "Command": ["mouse_click=middle"],
+          "Description":"Fire Missiles",
+          "Categories": "Missile Control"
         }
   ]
 }
