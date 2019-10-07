@@ -30,14 +30,14 @@
           {"Name": "Leaving",
          "patterns":[[ "I'm", "I am", "We are", "We're"], ["leaving the ship"]],
           "Files": ["/Role/Offloading.mp3", "/Acknowledgements/Go on then you can proceed.mp3", "/Acknowledgements/Accepted you may now proceed.mp3", "/Role/Goodbye.mp3"],
-          "Command": ["disable-cat=chit-chat", "disable-cat=Missile Control"],
+          "Command": ["disable-cat=chit-chat", "disable-cat=Missile Control", "disable-cat=Targeting"],
           "Description":"Leaving",
           "Categories": "chit-chat"
         },
           {"Name": "Entering",
          "patterns":[[ "I'm", "I am", "We are", "We're"], ["coming"],["on board", "back on board", "back on the ship"]],
           "Files": "none",
-          "Command": ["background=False", "play=/Planetary landings/Radio effect/Affirmative stand by.mp3", "wait=4", "play=/Planetary landings/Radio effect/Preparing now.mp3", "wait=6", "play=/Planetary landings/Radio effect/Pressurising.mp3", "wait=4", "play=/Rank/Commander/Welcome back Commander.mp3", "wait=2", "play=/Systems and Displays/Reset profiles/All systems ready to go.mp3", "enable-cat=chit-chat", "enable-cat=Missile Control"],
+          "Command": ["background=False", "play=/Planetary landings/Radio effect/Affirmative stand by.mp3", "wait=4", "play=/Planetary landings/Radio effect/Preparing now.mp3", "wait=6", "play=/Planetary landings/Radio effect/Pressurising.mp3", "wait=4", "play=/Rank/Commander/Welcome back Commander.mp3", "wait=2", "play=/Systems and Displays/Reset profiles/All systems ready to go.mp3", "enable-cat=chit-chat", "enable-cat=Missile Control", "enable-cat=Targeting"],
           "Description":"Coming back on board",
           "Categories": "general"
         },
@@ -54,6 +54,27 @@
           "Command": ["mouse_click=middle"],
           "Description":"Fire Missiles",
           "Categories": "Missile Control"
+        },
+          {"Name": "Prev Pinned Target",
+         "patterns":[["prev", "previous"], [ "target", "targets"]],
+          "Files": ["/Targeting/Contact.mp3", "/Targeting/Switching targets.mp3", "/Targeting/Targeting stand by.mp3"],
+          "Command": ["keypress_release=l"],
+          "Description":"target prev pinned",
+          "Categories": "Targeting"
+        },
+          {"Name": "Next Pinned Target",
+         "patterns":[["next"], [ "target", "targets"]],
+          "Files": ["/Targeting/Contact.mp3", "/Targeting/Switching targets.mp3", "/Targeting/Targeting stand by.mp3"],
+          "Command": ["keypress_release=o"],
+          "Description":"target Next pinned",
+          "Categories": "Targeting"
+        },
+          {"Name": "Prev Friendly Target",
+         "patterns":[["next friendly"], [ "target", "targets"]],
+          "Files": ["/Targeting/Cycle friendly.mp3"],
+          "Command": "None",
+          "Description":"target Next friendly",
+          "Categories": "Targeting"
         }
-  ]
+]
 }
